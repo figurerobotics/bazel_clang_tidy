@@ -47,6 +47,7 @@ def _run_tidy(ctx, exe, config, flags, compilation_context, infile, discriminato
         executable = exe,
         arguments = [args],
         mnemonic = "ClangTidy",
+        use_default_shell_env = True,
         progress_message = "Run clang-tidy on {}".format(infile.short_path),
     )
     return outfile
