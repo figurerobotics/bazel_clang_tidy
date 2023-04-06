@@ -6,3 +6,4 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.22.0/rules_rust-v0.22.0.tar.gz"],
 )
 
+workspace(name = "bazel_clang_tidy")
