@@ -1,4 +1,5 @@
 load("@bazel_tools//tools/cpp:toolchain_utils.bzl", "find_cpp_toolchain")
+load("@rules_rust//rust:rust_common.bzl", "CrateInfo")
 
 def _run_tidy(ctx, exe, flags, compilation_context, infile, discriminator):
     inputs = depset(direct = [infile], transitive = [compilation_context.headers])
@@ -89,7 +90,7 @@ def _safe_flags(flags):
 
 def _clang_tidy_aspect_impl(target, ctx):
     # if not a C/C++ target, we are not interested
-    if not CcInfo in target:
+    if not CcInfo in target or CrateInfo in target:
         return []
 
     exe = ctx.attr._clang_tidy.files_to_run
