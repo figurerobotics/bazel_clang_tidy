@@ -1,8 +1,14 @@
+#!/usr/bin/env bash
+# Usage: run_clang_tidy <OUTPUT> <CONFIG> [ARGS...]
 set -ue
 
-# Usage: run_clang_tidy <OUTPUT> [ARGS...]
+CLANG_TIDY_BIN=$1
+shift
 
 OUTPUT=$1
+shift
+
+CONFIG=$1
 shift
 
 # clang-tidy doesn't create a patchfile if there are no errors.
@@ -11,4 +17,8 @@ shift
 touch $OUTPUT
 truncate -s 0 $OUTPUT
 
-clang-tidy "$@"
+# if $CONFIG is provided by some external workspace, we need to
+# place it in the current directory
+test -e .clang-tidy || ln -s -f $CONFIG .clang-tidy
+
+"${CLANG_TIDY_BIN}" "$@"
