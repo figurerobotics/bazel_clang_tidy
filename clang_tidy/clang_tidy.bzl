@@ -37,6 +37,19 @@ def _run_tidy(ctx, exe, flags, compilation_context, infile, discriminator):
     for i in compilation_context.includes.to_list():
         args.add("-I" + i)
 
+    for i in compilation_context.quote_includes.to_list():
+        args.add("-I" + i)
+        args.add("-I" + i + "/include")
+
+    for i in compilation_context.system_includes.to_list():
+        args.add("-I" + i)
+        args.add("-I" + i + "/include")
+
+    print("includes: ", compilation_context.includes)
+    print("quote_includes: ", compilation_context.quote_includes)
+    print("system_includes: ", compilation_context.system_includes)
+    print("framework_includes: ", compilation_context.framework_includes)
+
     args.add_all(compilation_context.quote_includes.to_list(), before_each = "-iquote")
 
     args.add_all(compilation_context.system_includes.to_list(), before_each = "-isystem")
